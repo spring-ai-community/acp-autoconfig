@@ -10,7 +10,7 @@ Add the starter dependency:
 <dependency>
     <groupId>org.springaicommunity</groupId>
     <artifactId>acp-spring-boot-starter</artifactId>
-    <version>0.10.0</version>
+    <version>0.11.0</version>
 </dependency>
 ```
 
