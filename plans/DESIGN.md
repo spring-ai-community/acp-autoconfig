@@ -13,7 +13,7 @@ This project provides Spring Boot autoconfiguration for the ACP Java SDK. It cre
 | Version | `0.1.0-SNAPSHOT` |
 | Java | 21 |
 | Spring Boot | 4.0.5 |
-| ACP SDK | 0.11.0-SNAPSHOT |
+| ACP SDK | 0.10.0 |
 
 ### Modules
 
