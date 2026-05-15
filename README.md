@@ -1,6 +1,6 @@
 # ACP Spring Boot Autoconfiguration
 
-Spring Boot autoconfiguration for the [ACP Java SDK](https://github.com/agent-client-protocol/acp-java). Provides auto-configured clients, agents, and transports with property-driven configuration.
+Spring Boot autoconfiguration for the [ACP Java SDK](https://github.com/agentclientprotocol/java-sdk). Provides auto-configured clients, agents, and transports with property-driven configuration.
 
 ## Quick Start
 
