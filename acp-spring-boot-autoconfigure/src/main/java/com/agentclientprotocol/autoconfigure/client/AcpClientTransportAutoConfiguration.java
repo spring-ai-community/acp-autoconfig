@@ -1,6 +1,5 @@
 package com.agentclientprotocol.autoconfigure.client;
 
-import com.agentclientprotocol.autoconfigure.TransportType;
 import com.agentclientprotocol.sdk.client.AcpClient;
 import com.agentclientprotocol.sdk.client.transport.AgentParameters;
 import com.agentclientprotocol.sdk.client.transport.StdioAcpClientTransport;
@@ -22,8 +21,7 @@ public class AcpClientTransportAutoConfiguration {
 
 	@Configuration(proxyBeanMethods = false)
 	@ConditionalOnMissingBean(AcpClientTransport.class)
-	@ConditionalOnProperty(prefix = "spring.acp.client.transport", name = "type", havingValue = "websocket",
-			matchIfMissing = false)
+	@ConditionalOnProperty(prefix = "spring.acp.client.transport", name = "type", havingValue = "websocket")
 	static class ExplicitWebSocketTransportConfiguration {
 
 		@Bean
@@ -35,8 +33,7 @@ public class AcpClientTransportAutoConfiguration {
 
 	@Configuration(proxyBeanMethods = false)
 	@ConditionalOnMissingBean(AcpClientTransport.class)
-	@ConditionalOnProperty(prefix = "spring.acp.client.transport", name = "type", havingValue = "stdio",
-			matchIfMissing = false)
+	@ConditionalOnProperty(prefix = "spring.acp.client.transport", name = "type", havingValue = "stdio")
 	static class ExplicitStdioTransportConfiguration {
 
 		@Bean

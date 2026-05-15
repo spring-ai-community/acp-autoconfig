@@ -1,6 +1,5 @@
 package com.agentclientprotocol.autoconfigure.agent;
 
-import com.agentclientprotocol.autoconfigure.TransportType;
 import com.agentclientprotocol.sdk.agent.AcpAgent;
 import com.agentclientprotocol.sdk.agent.transport.StdioAcpAgentTransport;
 import com.agentclientprotocol.sdk.spec.AcpAgentTransport;
