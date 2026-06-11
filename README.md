@@ -10,7 +10,7 @@ Add the starter dependency:
 <dependency>
     <groupId>org.springaicommunity</groupId>
     <artifactId>acp-spring-boot-starter</artifactId>
-    <version>0.11.0</version>
+    <version>0.11.1</version>
 </dependency>
 ```
 
@@ -118,7 +118,7 @@ All auto-configured beans back off when you provide your own. Define a custom `A
 
 - Java 21+
 - Spring Boot 4.0+
-- ACP Java SDK 0.10.0+
+- ACP Java SDK 0.14.0+
 
 ## License
 
