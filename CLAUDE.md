@@ -10,13 +10,10 @@ Spring Boot autoconfiguration for the ACP Java SDK. Provides auto-configured cli
 ./mvnw clean verify           # Full build with checks
 ```
 
-## Source Material Routing
+## Planning
 
-| Document | Path | Read when... |
-|----------|------|-------------|
-| VISION.md | `plans/VISION.md` | Always read first |
-| DESIGN.md | `plans/DESIGN.md` | Before implementation |
-| ROADMAP.md | `plans/ROADMAP.md` | Before starting any step |
+Read `AGENTS.md`. Planning and roadmap state live in the private steward repository it names, not
+in this repository.
 
 ## Project Structure
 
@@ -61,8 +58,7 @@ acp-autoconfig/                             (parent POM)
 
 ## Session Behavior
 
-1. Read ROADMAP.md before starting any step
-2. Read DESIGN.md before implementing any class
-3. Check the ACP SDK source at `~/acp/acp-java` for exact API signatures
-4. Write tests before or alongside implementation
-5. After each step: run tests, update ROADMAP checkboxes, commit
+1. Read `AGENTS.md`, then the steward's `BINDING.md` and active roadmap before starting any step
+2. Check the ACP SDK source at `~/acp/acp-java` for exact API signatures
+3. Write tests before or alongside implementation
+4. After each step: run `./mvnw clean verify`, commit with an imperative subject line
