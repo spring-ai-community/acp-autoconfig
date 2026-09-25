@@ -10,7 +10,7 @@ Add the starter dependency:
 <dependency>
     <groupId>org.springaicommunity</groupId>
     <artifactId>acp-spring-boot-starter</artifactId>
-    <version>0.11.1</version>
+    <version>0.12.0</version>
 </dependency>
 ```
 
@@ -114,11 +114,16 @@ The agent defaults to stdio transport. Set `spring.acp.agent.enabled=false` to d
 
 All auto-configured beans back off when you provide your own. Define a custom `AcpClientTransport`, `AcpSyncClient`, `AcpAsyncClient`, or `AcpAgentTransport` bean and the autoconfiguration will use yours instead.
 
+A transport carries exactly one session, so build one client per transport. The auto-configured
+`AcpSyncClient` wraps the `AcpAsyncClient` bean (`new AcpSyncClient(asyncClient)`); a custom sync
+client should do the same rather than building a second client from the transport, which ACP Java
+SDK 0.18.0 rejects at construction.
+
 ## Requirements
 
 - Java 21+
 - Spring Boot 4.0+
-- ACP Java SDK 0.14.0+
+- ACP Java SDK 0.18.0+
 
 ## License
 
