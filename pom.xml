@@ -51,7 +51,7 @@
     <properties>
         <java.version>21</java.version>
         <spring-boot.version>4.1.0</spring-boot.version>
-        <acp-sdk.version>0.14.0</acp-sdk.version>
+        <acp-sdk.version>0.18.0</acp-sdk.version>
     </properties>
 
     <dependencyManagement>
@@ -68,6 +68,11 @@
             <dependency>
                 <groupId>com.agentclientprotocol</groupId>
                 <artifactId>acp-core</artifactId>
+                <version>${acp-sdk.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.agentclientprotocol</groupId>
+                <artifactId>acp-json-jackson3</artifactId>
                 <version>${acp-sdk.version}</version>
             </dependency>
             <dependency>
