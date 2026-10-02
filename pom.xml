@@ -51,7 +51,7 @@
     <properties>
         <java.version>21</java.version>
         <spring-boot.version>4.1.0</spring-boot.version>
-        <acp-sdk.version>0.18.0</acp-sdk.version>
+        <acp-sdk.version>0.19.0-SNAPSHOT</acp-sdk.version>
         <!-- Jackson patch releases ahead of Boot's managed versions (CVE fixes). Boot is imported
              as a BOM, not inherited, so its jackson-bom.version properties cannot be overridden
              here; the Jackson BOMs are imported before Boot's instead. Remove once Boot manages
@@ -158,25 +158,17 @@
     <!-- Release profile inherited from community-parent -->
     <!-- distributionManagement inherited from community-parent -->
 
-    <profiles>
-        <!-- Build against the next ACP Java SDK candidate: ./mvnw -Psdk-candidate clean verify -->
-        <profile>
-            <id>sdk-candidate</id>
-            <properties>
-                <acp-sdk.version>0.19.0-SNAPSHOT</acp-sdk.version>
-            </properties>
-            <repositories>
-                <repository>
-                    <id>central-snapshots</id>
-                    <url>https://central.sonatype.com/repository/maven-snapshots/</url>
-                    <releases>
-                        <enabled>false</enabled>
-                    </releases>
-                    <snapshots>
-                        <enabled>true</enabled>
-                    </snapshots>
-                </repository>
-            </repositories>
-        </profile>
-    </profiles>
+    <!-- ACP Java SDK snapshots (the 0.80.0 candidate is published as 0.19.0-SNAPSHOT). -->
+    <repositories>
+        <repository>
+            <id>central-snapshots</id>
+            <url>https://central.sonatype.com/repository/maven-snapshots/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 </project>
