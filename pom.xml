@@ -168,6 +168,9 @@
             </releases>
             <snapshots>
                 <enabled>true</enabled>
+                <!-- The SDK snapshot moves with every push to its main: check on every build,
+                     not daily, so a restored CI cache cannot pin an older one. -->
+                <updatePolicy>always</updatePolicy>
             </snapshots>
         </repository>
     </repositories>
