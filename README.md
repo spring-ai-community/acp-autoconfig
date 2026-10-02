@@ -108,6 +108,7 @@ spring.main.keep-alive=true
 | `spring.acp.agent.transport.http.max-web-socket-pending-frames` | `1024` | Frames queued for one WebSocket connection before it is closed |
 | `spring.acp.agent.transport.http.max-provisional-sessions` | `64` | Session streams a connection may open before the session is known |
 | `spring.acp.agent.transport.http.max-concurrent-streams-per-connection` | `1024` | HTTP/2 streams per client connection (standalone listener only) |
+| `spring.acp.agent.transport.http.shutdown-timeout` | `5s` | How long closing the endpoint waits for connections to close gracefully |
 
 ## Transport Selection
 
