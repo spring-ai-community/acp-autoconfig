@@ -98,7 +98,16 @@ spring.main.keep-alive=true
 |----------|---------|-------------|
 | `spring.acp.agent.enabled` | `true` | Enable agent autoconfiguration |
 | `spring.acp.agent.request-timeout` | `60s` | Request processing timeout |
-| `spring.acp.agent.transport.type` | `stdio` | Transport type |
+| `spring.acp.agent.transport.type` | `stdio` | `stdio` or `http` |
+| `spring.acp.agent.transport.http.path` | `/acp` | Endpoint path |
+| `spring.acp.agent.transport.http.port` | `8080` | Port of the standalone listener (not used in a servlet web app, which uses `server.port`) |
+| `spring.acp.agent.transport.http.max-post-body-size` | `16MB` | Largest inbound message (POST body or WebSocket text message) |
+| `spring.acp.agent.transport.http.keep-alive-interval` | `15s` | Interval between SSE keep-alive comments; `0` disables them |
+| `spring.acp.agent.transport.http.mailbox-capacity` | `1024` | Events kept per outbound stream while no subscriber is attached |
+| `spring.acp.agent.transport.http.max-pending-sse-events` | `1024` | Events queued for one SSE subscriber before it is closed |
+| `spring.acp.agent.transport.http.max-web-socket-pending-frames` | `1024` | Frames queued for one WebSocket connection before it is closed |
+| `spring.acp.agent.transport.http.max-provisional-sessions` | `64` | Session streams a connection may open before the session is known |
+| `spring.acp.agent.transport.http.max-concurrent-streams-per-connection` | `1024` | HTTP/2 streams per client connection (standalone listener only) |
 
 ## Transport Selection
 
@@ -110,9 +119,24 @@ The client transport is selected automatically based on which properties are set
 
 The agent defaults to stdio transport. Set `spring.acp.agent.enabled=false` to disable.
 
+### Agent over HTTP
+
+Add `com.agentclientprotocol:acp-streamable-http-jetty` and set `spring.acp.agent.transport.type=http`.
+Each remote connection gets its own agent runtime, all served by your one `@AcpAgent` bean.
+
+- **Servlet web application** (e.g. `spring-boot-starter-web`): the agent is mounted on the application's
+  own server at `spring.acp.agent.transport.http.path` (default `/acp`), serving ACP Streamable HTTP
+  (POST and SSE). WebSocket upgrades are not served in this mode.
+- **Otherwise**: the SDK's own Jetty listener serves the endpoint on
+  `spring.acp.agent.transport.http.port`, with Streamable HTTP, WebSocket upgrades on the same path, and
+  cleartext HTTP/2.
+
+Clients connect with `StreamableHttpAcpClientTransport` (`http://host:port/acp`) or
+`WebSocketAcpClientTransport` (`ws://host:port/acp`, listener mode).
+
 ## Overriding Beans
 
-All auto-configured beans back off when you provide your own. Define a custom `AcpClientTransport`, `AcpSyncClient`, `AcpAsyncClient`, or `AcpAgentTransport` bean and the autoconfiguration will use yours instead.
+All auto-configured beans back off when you provide your own. Define a custom `AcpClientTransport`, `AcpSyncClient`, `AcpAsyncClient`, `AcpAgentTransport`, `AcpAgentFactory`, `StreamableHttpAcpAgentTransport`, or `acpServletRegistration` bean and the autoconfiguration will use yours instead.
 
 A transport carries exactly one session, so build one client per transport. The auto-configured
 `AcpSyncClient` wraps the `AcpAsyncClient` bean (`new AcpSyncClient(asyncClient)`); a custom sync

@@ -41,7 +41,13 @@ Use `./mvnw`, never `mvn`. Java 21, Spring Boot 4.1, ACP Java SDK 0.18.0 (`acp-s
   sends its own `InitializeRequest`. The client is closed gracefully on shutdown.
 - Client transport: `spring.acp.client.transport.type` (`stdio` or `websocket`) wins; otherwise
   `stdio.command` selects stdio and `websocket.uri` selects WebSocket; with neither, no transport
-  and no client beans. Agent transport is stdio only, on by default (`spring.acp.agent.enabled`).
+  and no client beans. Agent transport: stdio by default (`spring.acp.agent.enabled`);
+  `spring.acp.agent.transport.type=http` serves the agent over ACP Streamable HTTP when
+  `acp-streamable-http-jetty` is on the classpath — the SDK's `StreamableHttpAcpServlet` on the
+  application's server in a servlet web app, otherwise the SDK's own listener
+  (`StreamableHttpAcpAgentTransport`, with WebSocket upgrades on the same path). HTTP builds one agent
+  runtime per remote connection from the `AcpAgentFactory` bean, all dispatching to the one
+  `@AcpAgent` bean.
 - At most one `@AcpAgent` bean. None: the agent lifecycle backs off (client-only apps). More than
   one: fail fast. The agent starts and stops through `SmartLifecycle`; every `AcpInterceptor` bean
   is wired into `AcpAgentSupport`.
@@ -53,7 +59,8 @@ Use `./mvnw`, never `mvn`. Java 21, Spring Boot 4.1, ACP Java SDK 0.18.0 (`acp-s
 - Every autoconfiguration class has `ApplicationContextRunner` tests for the bean created, the bean
   skipped, and a user-defined bean overriding it.
 - Integration tests use the SDK's `InMemoryTransportPair` (`acp-test`), never real processes or
-  sockets.
+  sockets. The one exception is the Streamable HTTP agent transport, which exists to open a socket:
+  its tests bind a free local port.
 - Check API signatures against the SDK source (`~/acp/acp-java`, at the tag `acp-sdk.version` names).
 - Commit messages carry no AI attribution.
 
