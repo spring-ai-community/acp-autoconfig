@@ -61,6 +61,8 @@ Use `./mvnw`, never `mvn`. Java 21, Spring Boot 4.1, ACP Java SDK 0.18.0 (`acp-s
 - Integration tests use the SDK's `InMemoryTransportPair` (`acp-test`), never real processes or
   sockets. The one exception is the Streamable HTTP agent transport, which exists to open a socket:
   its tests bind an ephemeral port (`http.port=0`).
+- Tests run with an empty `System.in` (`DetachedStdinListener`): a default stdio agent started in a
+  test must never read the forked JVM's real stdin, which carries surefire's own commands.
 - Check API signatures against the SDK source (`~/acp/acp-java`, at the tag `acp-sdk.version` names).
 - Commit messages carry no AI attribution.
 
