@@ -98,6 +98,7 @@ spring.main.keep-alive=true
 |----------|---------|-------------|
 | `spring.acp.agent.enabled` | `true` | Enable agent autoconfiguration |
 | `spring.acp.agent.request-timeout` | `60s` | Request processing timeout |
+| `spring.acp.agent.shutdown-on-transport-end` | `true` | Close the application context when the agent's transport ends; for stdio, when the client closes the agent's input, so the process exits |
 | `spring.acp.agent.transport.type` | `stdio` | `stdio` or `http` |
 | `spring.acp.agent.transport.http.path` | `/acp` | Endpoint path |
 | `spring.acp.agent.transport.http.port` | `8080` | Port of the standalone listener (not used in a servlet web app, which uses `server.port`) |

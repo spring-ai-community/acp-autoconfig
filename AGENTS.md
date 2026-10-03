@@ -51,8 +51,10 @@ Use `./mvnw`, never `mvn`. Java 21, Spring Boot 4.1, ACP Java SDK 0.18.0 (`acp-s
   runtime per remote connection from the `AcpAgentFactory` bean, all dispatching to the one
   `@AcpAgent` bean.
 - At most one `@AcpAgent` bean. None: the agent lifecycle backs off (client-only apps). More than
-  one: fail fast. The agent starts and stops through `SmartLifecycle`; every `AcpInterceptor` bean
-  is wired into `AcpAgentSupport`.
+  one: fail fast. The agent starts and stops through `SmartLifecycle`; when a single transport ends
+  on its own (stdio: end of input, every reply written) the application context is closed, so a
+  keep-alive stdio agent exits 0 (`spring.acp.agent.shutdown-on-transport-end`, default true).
+  Every `AcpInterceptor` bean is wired into `AcpAgentSupport`.
 - JSON: `acp-core` carries no JSON implementation from SDK 0.18.0. The autoconfigure module depends
   on `acp-json-jackson3`, matching Boot 4's Jackson 3.
 
