@@ -136,6 +136,24 @@ Each remote connection gets its own agent runtime, all served by your one `@AcpA
 Clients connect with `StreamableHttpAcpClientTransport` (`http://host:port/acp`) or
 `WebSocketAcpClientTransport` (`ws://host:port/acp`, listener mode).
 
+## Customizing the Client
+
+Define one or more `AcpClientCustomizer` beans to register handlers on the auto-configured client
+without replacing it: session updates, permission requests, file system or terminal handlers. They
+are applied in `@Order` to the one builder behind both `AcpAsyncClient` and `AcpSyncClient`.
+
+```java
+@Bean
+AcpClientCustomizer sessionUpdates() {
+    return spec -> spec.sessionUpdateConsumer(notification -> {
+        System.out.println(notification.update());
+        return Mono.empty();
+    });
+}
+```
+
+Without a customizer, session updates are logged at DEBUG.
+
 ## Overriding Beans
 
 All auto-configured beans back off when you provide your own. Define a custom `AcpClientTransport`, `AcpSyncClient`, `AcpAsyncClient`, `AcpAgentTransport`, `AcpAgentFactory`, `StreamableHttpAcpAgentTransport`, or `acpServletRegistration` bean and the autoconfiguration will use yours instead.

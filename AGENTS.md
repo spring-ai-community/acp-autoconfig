@@ -37,13 +37,15 @@ Use `./mvnw`, never `mvn`. Java 21, Spring Boot 4.1, ACP Java SDK 0.18.0 (`acp-s
 - One client per transport. A transport instance carries exactly one session: build one
   `AcpAsyncClient` from the transport bean and derive `AcpSyncClient` with
   `new AcpSyncClient(asyncClient)`. Never build two clients from one transport bean.
+- `AcpClientCustomizer` beans are applied in order to the client builder; the client always has a
+  DEBUG-logging session-update consumer, so the SDK never warns about an unhandled session/update.
 - The client is not initialized. The autoconfiguration never calls `initialize()`; the application
   calls `initialize()` itself. Client capabilities come from `spring.acp.client.capabilities.*`,
   set on the client builder (the SDK takes them only there). The client is closed gracefully on
   shutdown.
 - Client transport: `spring.acp.client.transport.type` (`stdio` or `websocket`) wins; otherwise
   `stdio.command` selects stdio and `websocket.uri` selects WebSocket; with neither, no transport
-  and no client beans. Agent transport: stdio by default (`spring.acp.agent.enabled`);
+  and no client beans. No agent transport without an `@AcpAgent` bean. Agent transport: stdio by default (`spring.acp.agent.enabled`);
   `spring.acp.agent.transport.type=http` serves the agent over ACP Streamable HTTP when
   `acp-streamable-http-jetty` is on the classpath — the SDK's `StreamableHttpAcpServlet` on the
   application's server in a servlet web app, otherwise the SDK's own listener
