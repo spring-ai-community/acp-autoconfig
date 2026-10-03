@@ -43,9 +43,11 @@ Use `./mvnw`, never `mvn`. Java 21, Spring Boot 4.1, ACP Java SDK 0.18.0 (`acp-s
   calls `initialize()` itself. Client capabilities come from `spring.acp.client.capabilities.*`,
   set on the client builder (the SDK takes them only there). The client is closed gracefully on
   shutdown.
-- Client transport: `spring.acp.client.transport.type` (`stdio` or `websocket`) wins; otherwise
-  `stdio.command` selects stdio and `websocket.uri` selects WebSocket; with neither, no transport
-  and no client beans. No agent transport without an `@AcpAgent` bean. Agent transport: stdio by default (`spring.acp.agent.enabled`);
+- Client transport: `spring.acp.client.transport.type` (`stdio`, `websocket` or `http`) wins;
+  otherwise `stdio.command` selects stdio, `websocket.uri` WebSocket and `http.uri` Streamable HTTP;
+  with none, no transport and no client beans. Closing: the lifecycle beans close the client and the
+  agent once; the client, transport and agent transport beans have `destroyMethod = ""`, because
+  Spring's inferred `close()` closed them again. No agent transport without an `@AcpAgent` bean. Agent transport: stdio by default (`spring.acp.agent.enabled`);
   `spring.acp.agent.transport.type=http` serves the agent over ACP Streamable HTTP when
   `acp-streamable-http-jetty` is on the classpath — the SDK's `StreamableHttpAcpServlet` on the
   application's server in a servlet web app, otherwise the SDK's own listener

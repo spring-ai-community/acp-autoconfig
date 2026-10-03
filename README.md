@@ -82,12 +82,13 @@ spring.main.keep-alive=true
 | Property | Default | Description |
 |----------|---------|-------------|
 | `spring.acp.client.request-timeout` | `30s` | Request timeout |
-| `spring.acp.client.transport.type` | auto-detect | `stdio` or `websocket` |
+| `spring.acp.client.transport.type` | auto-detect | `stdio`, `websocket` or `http` |
 | `spring.acp.client.transport.stdio.command` | — | Command to launch agent process |
 | `spring.acp.client.transport.stdio.args` | — | Command arguments (comma-separated) |
 | `spring.acp.client.transport.stdio.env.*` | — | Environment variables for the process |
 | `spring.acp.client.transport.websocket.uri` | — | WebSocket URI (e.g. `ws://localhost:8080/acp`) |
 | `spring.acp.client.transport.websocket.connect-timeout` | `10s` | WebSocket connection timeout |
+| `spring.acp.client.transport.http.uri` | — | Streamable HTTP endpoint of the agent (e.g. `http://localhost:8080/acp`) |
 | `spring.acp.client.capabilities.read-text-file` | `false` | Advertise file read capability; enable it with a file handler registered through an `AcpClientCustomizer` |
 | `spring.acp.client.capabilities.write-text-file` | `false` | Advertise file write capability; enable it with a file handler registered through an `AcpClientCustomizer` |
 | `spring.acp.client.capabilities.terminal` | `false` | Advertise terminal capability; enable it with terminal handlers registered through an `AcpClientCustomizer` |
@@ -117,13 +118,15 @@ The client transport is selected automatically based on which properties are set
 
 - Set `spring.acp.client.transport.stdio.command` → stdio transport
 - Set `spring.acp.client.transport.websocket.uri` → WebSocket transport
+- Set `spring.acp.client.transport.http.uri` → Streamable HTTP transport
 - Set `spring.acp.client.transport.type` → explicit selection (takes precedence)
 
 The agent defaults to stdio transport. Set `spring.acp.agent.enabled=false` to disable.
 
 ### Agent over HTTP
 
-Add `com.agentclientprotocol:acp-streamable-http-jetty` and set `spring.acp.agent.transport.type=http`.
+Add `com.agentclientprotocol:acp-streamable-http-jetty` (it is not in the starter, because it brings Jetty) and set
+`spring.acp.agent.transport.type=http`. Without the module, startup fails with a message naming it.
 Each remote connection gets its own agent runtime, all served by your one `@AcpAgent` bean.
 
 - **Servlet web application** (e.g. `spring-boot-starter-web`): the agent is mounted on the application's
