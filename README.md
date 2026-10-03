@@ -88,9 +88,9 @@ spring.main.keep-alive=true
 | `spring.acp.client.transport.stdio.env.*` | — | Environment variables for the process |
 | `spring.acp.client.transport.websocket.uri` | — | WebSocket URI (e.g. `ws://localhost:8080/acp`) |
 | `spring.acp.client.transport.websocket.connect-timeout` | `10s` | WebSocket connection timeout |
-| `spring.acp.client.capabilities.read-text-file` | `true` | Advertise file read capability |
-| `spring.acp.client.capabilities.write-text-file` | `true` | Advertise file write capability |
-| `spring.acp.client.capabilities.terminal` | `false` | Advertise terminal capability |
+| `spring.acp.client.capabilities.read-text-file` | `false` | Advertise file read capability; enable it with a file handler registered through an `AcpClientCustomizer` |
+| `spring.acp.client.capabilities.write-text-file` | `false` | Advertise file write capability; enable it with a file handler registered through an `AcpClientCustomizer` |
+| `spring.acp.client.capabilities.terminal` | `false` | Advertise terminal capability; enable it with terminal handlers registered through an `AcpClientCustomizer` |
 
 ### Agent
 
@@ -153,6 +153,21 @@ AcpClientCustomizer sessionUpdates() {
 ```
 
 Without a customizer, session updates are logged at DEBUG.
+
+The client advertises no file system or terminal capability by default, since the autoconfiguration
+registers no handler for them. Register the handler with a customizer and turn the capability on:
+
+```java
+@Bean
+AcpClientCustomizer fileReads() {
+    return spec -> spec.readTextFileHandler(request ->
+        Mono.fromCallable(() -> new ReadTextFileResponse(Files.readString(Path.of(request.path())))));
+}
+```
+
+```properties
+spring.acp.client.capabilities.read-text-file=true
+```
 
 ## Overriding Beans
 
